@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -30,10 +31,10 @@ namespace PushNotification.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inscricao>>> GetInscricao()
         {
-          if (_context.Inscricao == null)
-          {
-              return NotFound();
-          }
+            if (_context.Inscricao == null)
+            {
+                return NotFound();
+            }
             return await _context.Inscricao.ToListAsync();
         }
 
@@ -41,10 +42,10 @@ namespace PushNotification.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Inscricao>> GetInscricao(int id)
         {
-          if (_context.Inscricao == null)
-          {
-              return NotFound();
-          }
+            if (_context.Inscricao == null)
+            {
+                return NotFound();
+            }
             var inscricao = await _context.Inscricao.FindAsync(id);
 
             if (inscricao == null)
@@ -91,10 +92,10 @@ namespace PushNotification.Controllers
         [HttpPost]
         public async Task<ActionResult<Inscricao>> PostInscricao(Inscricao inscricao)
         {
-          if (_context.Inscricao == null)
-          {
-              return Problem("Entity set 'Contexto.Inscricao'  is null.");
-          }
+            if (_context.Inscricao == null)
+            {
+                return Problem("Entity set 'Contexto.Inscricao'  is null.");
+            }
 
             var inscricaoExiste = await _context.Inscricao.FirstOrDefaultAsync(x => x.aparelho == inscricao.aparelho);
 
@@ -232,13 +233,30 @@ namespace PushNotification.Controllers
 
                 string payload = JsonSerializer.Serialize(notificationData);
 
-                    var inscricoesDoUsuario = await _context.Inscricao.ToListAsync();
+                var inscricoesDoUsuario = await _context.Inscricao.ToListAsync();
+                foreach (var inscricao in inscricoesDoUsuario)
+                {
+                    var pushSubscription = new PushSubscription(inscricao.endpoint, inscricao.p26dh, inscricao.auth);
 
-                    foreach (var inscricaos in inscricoesDoUsuario)
+                    try
                     {
-                        var pushSubscription = new PushSubscription(inscricaos.endpoint, inscricaos.p26dh, inscricaos.auth);
                         await _webPushClient.SendNotificationAsync(pushSubscription, payload, vapidDetails);
                     }
+                    catch (WebPushException ex)
+                    {
+
+                        Console.WriteLine($"Erro ao enviar notificação: {inscricao.id} {ex.Message}, Inscrição: {inscricao.id}, Endpoint: {inscricao.endpoint}");
+
+                        if (ex.Message == "Subscription no longer valid") {
+                            Console.WriteLine("Token expirado, removendo endpoint");
+                            await DeleteByEndpointAsync(inscricao.endpoint);
+                        }
+
+
+                    }
+                }
+
+
 
                 return Ok("Notificação push enviada com sucesso!");
             }
@@ -251,6 +269,26 @@ namespace PushNotification.Controllers
         private bool InscricaoExists(int id)
         {
             return (_context.Inscricao?.Any(e => e.id == id)).GetValueOrDefault();
+        }
+
+        [HttpDelete("DeleteByEndpoint/{endpoint}")]
+        public async Task DeleteByEndpointAsync(string endpoint)
+        {
+            try
+            {
+                var inscricao = await _context.Inscricao
+    .FirstOrDefaultAsync(i => i.endpoint == endpoint);
+
+                if (inscricao != null)
+                {
+                    _context.Inscricao.Remove(inscricao);
+                    await _context.SaveChangesAsync();
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine($"Erro ao deletar: {ex.Message} Endpoint:{endpoint}");
+            }
+
         }
     }
 }
