@@ -20,6 +20,41 @@ namespace PushNotification.Models
         [Column("auth")]
         public string auth { get; set; }
 
+        //
+        [Column("namePlatform")]
+        public string? namePlatform { get; set; }
+
+        [Column("versionPlatform")]
+        public string? versionPlatform { get; set; }
+        
+        [Column("layoutPlatform")]
+        public string? layoutPlatform { get; set; }
+        
+        [Column("preleasePlatform")]
+        public string? preleasePlatform { get; set; }
+       
+        [Column("osPlatform")]
+        public string? osPlatform { get; set; }
+        
+        [Column("manufacturerPlatform")]
+        public string? manufacturerPlatform { get; set; }
+
+        [Column("productPlatform")]
+        public string? productPlatform { get; set; }
+
+        [Column("descriptionPlatform")]
+        public string? descriptionPlatform { get; set; }
+
+        [Column("uaPlatform")]
+        public string? uaPlatform { get; set; }
+        //
+
+        [Column("createdAt")]
+        public DateTime? createdAt { get; set; }
+
+
+        [Column("updatedAt")]
+        public DateTime? updatedAt { get; set; }
 
         [Column("usuario_id")]
         public int? usuario_id { get; set; }
