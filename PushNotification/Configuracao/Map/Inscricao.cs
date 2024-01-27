@@ -16,6 +16,19 @@ namespace PushNotification.Configuracao.Map
             builder.Property(x => x.auth).IsRequired();
             builder.Property(x => x.p26dh).IsRequired();
 
+            builder.Property(x => x.namePlatform);
+            builder.Property(x => x.versionPlatform);
+            builder.Property(x => x.layoutPlatform);
+            builder.Property(x => x.preleasePlatform);
+            builder.Property(x => x.osPlatform);
+            builder.Property(x => x.manufacturerPlatform);
+            builder.Property(x => x.productPlatform);
+            builder.Property(x => x.descriptionPlatform);
+            builder.Property(x => x.uaPlatform);
+            builder.Property(x => x.createdAt);
+            builder.Property(x => x.updatedAt);
+
+
             builder.HasIndex(x => x.endpoint).IsUnique();
 
             builder.Property(x => x.usuario_id);
