@@ -47,14 +47,14 @@ namespace PushNotification.Models
 
         [Column("uaPlatform")]
         public string? uaPlatform { get; set; }
-        //
+       
 
         [Column("createdAt")]
         public DateTime? createdAt { get; set; }
 
-
         [Column("updatedAt")]
         public DateTime? updatedAt { get; set; }
+        //
 
         [Column("usuario_id")]
         public int? usuario_id { get; set; }
@@ -62,5 +62,15 @@ namespace PushNotification.Models
         [ForeignKey("usuario_id")]
         public virtual Usuario? Usuario { get; set; }
 
+
+        public void CriarData()
+        {
+            createdAt = DateTime.UtcNow;
+        }
+
+        public void AtualizarData()
+        {
+            updatedAt = updatedAt ?? DateTime.UtcNow;
+        }
     }
 }
