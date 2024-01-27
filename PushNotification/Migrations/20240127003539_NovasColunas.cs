@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PushNotification.Migrations
 {
-    public partial class InscricaoUsuario : Migration
+    public partial class NovasColunas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,17 @@ namespace PushNotification.Migrations
                     endpoint = table.Column<string>(type: "text", nullable: false),
                     p26dh = table.Column<string>(type: "text", nullable: false),
                     auth = table.Column<string>(type: "text", nullable: false),
+                    namePlatform = table.Column<string>(type: "text", nullable: true),
+                    versionPlatform = table.Column<string>(type: "text", nullable: true),
+                    layoutPlatform = table.Column<string>(type: "text", nullable: true),
+                    preleasePlatform = table.Column<string>(type: "text", nullable: true),
+                    osPlatform = table.Column<string>(type: "text", nullable: true),
+                    manufacturerPlatform = table.Column<string>(type: "text", nullable: true),
+                    productPlatform = table.Column<string>(type: "text", nullable: true),
+                    descriptionPlatform = table.Column<string>(type: "text", nullable: true),
+                    uaPlatform = table.Column<string>(type: "text", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     usuario_id = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>

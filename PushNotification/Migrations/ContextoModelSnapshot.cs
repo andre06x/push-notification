@@ -40,19 +40,63 @@ namespace PushNotification.Migrations
                         .HasColumnType("text")
                         .HasColumnName("auth");
 
+                    b.Property<DateTime?>("createdAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
+                    b.Property<string>("descriptionPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("descriptionPlatform");
+
                     b.Property<string>("endpoint")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("endpoint");
+
+                    b.Property<string>("layoutPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("layoutPlatform");
+
+                    b.Property<string>("manufacturerPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("manufacturerPlatform");
+
+                    b.Property<string>("namePlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("namePlatform");
+
+                    b.Property<string>("osPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("osPlatform");
 
                     b.Property<string>("p26dh")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("p26dh");
 
+                    b.Property<string>("preleasePlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("preleasePlatform");
+
+                    b.Property<string>("productPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("productPlatform");
+
+                    b.Property<string>("uaPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("uaPlatform");
+
+                    b.Property<DateTime?>("updatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
+
                     b.Property<int?>("usuario_id")
                         .HasColumnType("integer")
                         .HasColumnName("usuario_id");
+
+                    b.Property<string>("versionPlatform")
+                        .HasColumnType("text")
+                        .HasColumnName("versionPlatform");
 
                     b.HasKey("id");
 
