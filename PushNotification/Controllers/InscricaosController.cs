@@ -108,6 +108,7 @@ namespace PushNotification.Controllers
             {
                 if (inscricaoExiste?.id != null && inscricaoExiste?.endpoint != inscricao.endpoint || inscricaoExiste?.auth != inscricao.auth || inscricaoExiste?.p26dh != inscricao.p26dh)
                 {
+                    inscricaoExiste.updatedAt = DateTime.UtcNow;
                     inscricaoExiste.p26dh = inscricao.p26dh;
                     inscricaoExiste.endpoint = inscricao.endpoint;
                     inscricaoExiste.auth = inscricao.auth;
@@ -118,7 +119,7 @@ namespace PushNotification.Controllers
             }
 
 
-
+            inscricao.CriarData();
             _context.Inscricao.Add(inscricao);
             await _context.SaveChangesAsync();
 
