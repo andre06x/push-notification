@@ -54,7 +54,12 @@ namespace PushNotification.Models
 
         [Column("updatedAt")]
         public DateTime? updatedAt { get; set; }
-        //
+
+        [Column("widthScreen")]
+        public string? widthScreen { get; set; }
+
+        [Column("heightScreen")]
+        public string? heightScreen { get; set; }
 
         [Column("usuario_id")]
         public int? usuario_id { get; set; }
