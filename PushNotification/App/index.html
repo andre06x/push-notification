@@ -1,28 +1,120 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minha PWA</title>
-    <link rel="manifest" href="/App/manifest.json">
-</head>
-<body>
-    <h1>Minha Progressive Web App</h1>
-    <p> PWA!</p>
-
-
+    <link rel="manifest" href="/App/manifest.json" />
+  </head>
+  <body>
+    <h1>PWA NOTIFICAÇÃO</h1>
+    <p>PWA!</p>
+    <div>
+      <pre
+        id="app"
+        style="
+          width: 100%;
+          overflow-wrap: break-word; /* Habilita a quebra de palavras */
+          white-space: pre-wrap;
+        "
+      ></pre>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"
+      integrity="sha512-eYPrm8TgYWg3aa6tvSRZjN4v0Z9Qx69q3RhfSj+Mf89QqwOMqmwSlsVqfp4N8NVAcZe/YeUhh9x/nM2CAOp6cA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/App/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado com sucesso:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Falha ao registrar o Service Worker:', error);
-                    });
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/App/sw.js").then((registration) => {
+            console.log("SW REGISTRADO");
+
+            Notification.requestPermission().then((permission) => {
+              if (permission === "granted") {
+                console.log("Permissão para notificações concedida");
+                subscribeUserToPush(registration);
+              } else {
+                console.log("Permissão para notificações negada");
+              }
             });
-        }
+          });
+        });
+      }
     </script>
-</body>
+    <script>
+      var publicVapidKey =
+        "BOCf5dvtI5c0deUWWWXD3lEKmsOJq1So5mWd1uUIJnLLCp1hmaNBMXPXS9NKhxNFO5wCkLwJcTJEZsRrtL3NRoc";
+
+      function subscribeUserToPush(registration) {
+        registration.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+          })
+          .then(async (subscription) => {
+            let aparelho = localStorage.getItem("aparelho");
+            if (!aparelho) {
+              aparelho = self.crypto.randomUUID();
+              localStorage.setItem("aparelho", aparelho);
+            }
+
+            const subJSON = await JSON.stringify(subscription);
+            const subJSONparse = JSON.parse(subJSON);
+            console.log(subJSONparse);
+
+            console.log(platform);
+            const data = {
+              endpoint: subJSONparse.endpoint,
+              p26dh: subJSONparse.keys.p256dh,
+              auth: subJSONparse.keys.auth,
+              aparelho,
+              namePlatform: platform.name,
+              versionPlatform: platform.version,
+              layoutPlatform: platform.layout,
+              preleasePlatform: platform.prerelease,
+              osPlatform: `${platform.os.family} ${platform.os.version} ${platform.os.architecture}`,
+              manufacturerPlatform: platform.manufacturer,
+              productPlatform: platform.product,
+              descriptionPlatform: platform.description,
+              uaPlatform: platform.ua,
+              widthScreen: screen.width + "",
+              heightScreen: screen.height + "",
+            };
+
+            fetch("http://localhost:5187/api/PushNotification/Inscricaos", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }).catch((err) => console.log(err));
+
+            document.getElementById("app").innerHTML = JSON.stringify(
+              subscription,
+              null,
+              2
+            );
+            console.log("Inscrito para Push Notifications:", subscription);
+          })
+          .catch((error) => {
+            console.error("Falha ao inscrever para Push Notifications:", error);
+          });
+      }
+
+      function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+        const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
+    </script>
+  </body>
 </html>
