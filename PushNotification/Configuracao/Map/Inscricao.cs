@@ -28,6 +28,9 @@ namespace PushNotification.Configuracao.Map
             builder.Property(x => x.createdAt);
             builder.Property(x => x.updatedAt);
 
+            builder.Property(x => x.heightScreen);
+            builder.Property(x => x.widthScreen);
+
 
             builder.HasIndex(x => x.endpoint).IsUnique();
 
