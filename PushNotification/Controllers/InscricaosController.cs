@@ -220,8 +220,8 @@ namespace PushNotification.Controllers
             try
             {
 
-                string publicKey = "BGhDoF1dnSuETZAp-Duns1g0I_kuhHHD2ysOBi_0HldmBtRjgANPxjxhDWVqMnghIDK--Zuf2rO2NPxX8ggiESs";
-                string privateKey = "O8XdWwT_aECgFk2LABrJE0y3z6BiSLkkdYuZx9UXGRw";
+                string publicKey = "BOCf5dvtI5c0deUWWWXD3lEKmsOJq1So5mWd1uUIJnLLCp1hmaNBMXPXS9NKhxNFO5wCkLwJcTJEZsRrtL3NRoc";
+                string privateKey = "91c9B_Pyc_jReKCC7Y8RxgiowwB8DbjGpVGKYWnuHwg";
 
                 var vapidDetails = new VapidDetails("mailto:seu_email@example.com", publicKey, privateKey);
 
