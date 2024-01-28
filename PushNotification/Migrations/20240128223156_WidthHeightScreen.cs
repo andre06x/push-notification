@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PushNotification.Migrations
 {
-    public partial class NovasColunas : Migration
+    public partial class WidthHeightScreen : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,8 @@ namespace PushNotification.Migrations
                     uaPlatform = table.Column<string>(type: "text", nullable: true),
                     createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     updatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    widthScreen = table.Column<string>(type: "text", nullable: true),
+                    heightScreen = table.Column<string>(type: "text", nullable: true),
                     usuario_id = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>

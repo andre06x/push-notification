@@ -12,8 +12,8 @@ using PushNotification.Configuracao;
 namespace PushNotification.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240127003539_NovasColunas")]
-    partial class NovasColunas
+    [Migration("20240128223156_WidthHeightScreen")]
+    partial class WidthHeightScreen
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,10 @@ namespace PushNotification.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("endpoint");
+
+                    b.Property<string>("heightScreen")
+                        .HasColumnType("text")
+                        .HasColumnName("heightScreen");
 
                     b.Property<string>("layoutPlatform")
                         .HasColumnType("text")
@@ -99,6 +103,10 @@ namespace PushNotification.Migrations
                     b.Property<string>("versionPlatform")
                         .HasColumnType("text")
                         .HasColumnName("versionPlatform");
+
+                    b.Property<string>("widthScreen")
+                        .HasColumnType("text")
+                        .HasColumnName("widthScreen");
 
                     b.HasKey("id");
 

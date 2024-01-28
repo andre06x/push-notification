@@ -53,6 +53,10 @@ namespace PushNotification.Migrations
                         .HasColumnType("text")
                         .HasColumnName("endpoint");
 
+                    b.Property<string>("heightScreen")
+                        .HasColumnType("text")
+                        .HasColumnName("heightScreen");
+
                     b.Property<string>("layoutPlatform")
                         .HasColumnType("text")
                         .HasColumnName("layoutPlatform");
@@ -97,6 +101,10 @@ namespace PushNotification.Migrations
                     b.Property<string>("versionPlatform")
                         .HasColumnType("text")
                         .HasColumnName("versionPlatform");
+
+                    b.Property<string>("widthScreen")
+                        .HasColumnType("text")
+                        .HasColumnName("widthScreen");
 
                     b.HasKey("id");
 
