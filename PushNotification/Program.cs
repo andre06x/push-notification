@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using PushNotification.Configuracao;
 using WebPush;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,14 @@ builder.Services.AddDbContext<Contexto>(options =>
 );
 
 var app = builder.Build();
+app.UseStaticFiles(); // Este middleware serve arquivos estáticos do wwwroot
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+              Path.Combine(Directory.GetCurrentDirectory(), "App")),
+    RequestPath = "/App" 
+});
 
 if (app.Environment.IsDevelopment())
 {
