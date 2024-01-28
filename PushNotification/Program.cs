@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using PushNotification.Configuracao;
 using WebPush;
 
@@ -30,6 +31,20 @@ builder.Services.AddDbContext<Contexto>(options =>
 );
 
 var app = builder.Build();
+
+app.UseStaticFiles(); // Este middleware serve arquivos est�ticos do wwwroot
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+              Path.Combine(Directory.GetCurrentDirectory(), "App")),
+    RequestPath = "/App"
+});
+
+//VapidDetails vapidKeys = VapidHelper.GenerateVapidKeys();
+//gera public e privatekey
+//Console.WriteLine("Public {0}", vapidKeys.PublicKey);
+//Console.WriteLine("Private {0}", vapidKeys.PrivateKey);
 
 if (app.Environment.IsDevelopment())
 {
