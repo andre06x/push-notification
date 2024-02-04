@@ -62,7 +62,8 @@ self.addEventListener("fetch", function (event) {
 self.addEventListener("push", (e) => {
   const data = e.data.json();
   self.registration.showNotification(data.title, {
-    body: data.body,
+      body: data.body,
+    icon: data.icon || "",
     badge:
       "https://firebasestorage.googleapis.com/v0/b/pwaa-8d87e.appspot.com/o/4z6n6YiydDj4bdI2X8nc%2FHDZPlKQbJZSSKeU.png?alt=media&token=420bbe31-44ce-4a3f-88a9-47f5fe63a283",
   });
