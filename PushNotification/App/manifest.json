@@ -1,6 +1,6 @@
 {
-  "name": "Minha PWA",
-  "short_name": "MinhaPWA",
+  "name": "MeuPWA",
+  "short_name": "MeuPWA",
   "description": "Uma Progressive Web App de exemplo",
   "icons": [
     {
